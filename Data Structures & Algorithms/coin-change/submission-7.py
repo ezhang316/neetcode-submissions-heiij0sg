@@ -1,0 +1,36 @@
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        
+        # starting with any coin
+        # add 1 to coin count
+        # and repeat function call with amount - coin
+        # for any amount, store the smallest amount in seen
+
+        seen = {}
+        
+        def recurse(amount):
+            if amount == 0:
+                return 0
+            
+            nonlocal seen
+            if amount in seen:
+                return seen[amount]
+            
+            # Calculate smallest for given amount
+            smallest = math.inf
+            nonlocal coins
+            for coin in coins:
+                if amount - coin >= 0 :
+                    return_value = recurse(amount - coin)
+                    # Store smallest found for amount - current_coin
+                    # Check if using this coin has given the least amount of coins
+                    smallest = min(smallest, return_value + 1)
+
+                seen[amount] = smallest
+            
+            return smallest
+        minCoins = recurse(amount)
+        return -1 if minCoins == math.inf else minCoins
+
+        # find the largest and continue getting the largest until you get the one
+        # Wrong e.g. amount = 18, coins = [1, 10, 9]
