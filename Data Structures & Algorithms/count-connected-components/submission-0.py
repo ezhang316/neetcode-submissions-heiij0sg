@@ -1,0 +1,31 @@
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        
+        d = {i: [] for i in range(n)}
+
+        for e in edges:
+            d[e[0]].append(e[1])
+            d[e[1]].append(e[0])
+
+
+
+        components = 0
+
+
+        def dfs(e):
+            if seen[e]:
+                return
+            
+            seen[e] = True
+            
+            for child_e in d[e]:
+                dfs(child_e)
+            
+            components += 1
+
+            
+
+
+        seen = [False for _ in range(n)]
+        for v in n:
+            dfs(v)
